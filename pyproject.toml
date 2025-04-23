@@ -1,0 +1,30 @@
+[project]
+name = "vsl-json"
+dynamic = ["version"]
+authors = [
+  { name="Arseniy Terekhin", email="senyai@gmail.com" },
+]
+description = "Compact JSON formatter"
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+[project.urls]
+"Homepage" = "https://github.com/iitpvisionlab/vsl_json"
+"Bug Reports" = "https://github.com/iitpvisionlab/vsl_json/issues"
+"Source" = "https://github.com/iitpvisionlab/vsl_json"
+[build-system]
+requires = [
+  "setuptools",
+  "wheel",
+]
+build-backend = "setuptools.build_meta"
+[tool.black]
+line-length = 79
+target-version = ["py310"]
+[tool.setuptools.dynamic]
+version = {attr = "vsl_json.__version__"}
