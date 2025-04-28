@@ -2,7 +2,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 class VSLJSONEncoder(json.JSONEncoder):
@@ -27,7 +27,11 @@ class VSLJSONEncoder(json.JSONEncoder):
     def encode(self, o: Any) -> str:
         """Encode JSON object *o* with respect to single line lists."""
         if isinstance(o, float):
-            return f"{o:0.6f}"  # 1e-6 of a pixel should be all right
+            if o.is_integer():
+                return f"{o}"  # don't need extra zeroes
+            return f"{o:0.6f}".rstrip(
+                "0"
+            )  # 1e-6 of a pixel should be all right
         if isinstance(o, (list, tuple)):
             return self._encode_list(o)
         if isinstance(o, dict):
