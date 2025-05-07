@@ -1,8 +1,11 @@
 from __future__ import annotations
 import json
 from typing import Any
+from os import PathLike
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
+
+StrOrBytesPath = str | bytes | PathLike[str] | PathLike[bytes]
 
 
 class VSLJSONEncoder(json.JSONEncoder):
@@ -29,8 +32,8 @@ class VSLJSONEncoder(json.JSONEncoder):
         if isinstance(o, float):
             if o.is_integer():
                 return f"{o}"  # don't need extra zeroes
-            return f"{o:0.6f}".rstrip(
-                "0"
+            return f"{o:0.6f}".rstrip("0").rstrip(
+                "."
             )  # 1e-6 of a pixel should be all right
         if isinstance(o, (list, tuple)):
             return self._encode_list(o)
@@ -97,12 +100,12 @@ class VSLJSONEncoder(json.JSONEncoder):
         return self.indentation_level * self.indent
 
 
-def load(json_filename: str) -> Any:
+def load(json_filename: StrOrBytesPath) -> Any:
     with open(json_filename, "r", encoding="utf-8") as inp:
         return json.load(inp)
 
 
-def dump(json_filename: str, data: Any) -> None:
+def dump(json_filename: StrOrBytesPath, data: Any) -> None:
     # save first to raw_json, as `json.dump` will corrupt file in extreme cases
     raw_json = json.dumps(
         data,
