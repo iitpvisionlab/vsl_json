@@ -105,9 +105,8 @@ def load(json_filename: StrOrBytesPath) -> Any:
         return json.load(inp)
 
 
-def dump(json_filename: StrOrBytesPath, data: Any) -> None:
-    # save first to raw_json, as `json.dump` will corrupt file in extreme cases
-    raw_json = json.dumps(
+def dumps(data: Any):
+    return json.dumps(
         data,
         allow_nan=False,
         sort_keys=True,
@@ -115,5 +114,9 @@ def dump(json_filename: StrOrBytesPath, data: Any) -> None:
         cls=VSLJSONEncoder,
     )
 
+
+def dump(data: Any, json_filename: StrOrBytesPath) -> None:
+    # save first to raw_json, as `json.dump` will corrupt file in extreme cases
+    raw_json = dumps(data)
     with open(json_filename, "w", encoding="utf-8") as out:
         out.write(raw_json)
