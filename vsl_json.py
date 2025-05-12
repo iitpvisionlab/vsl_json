@@ -3,7 +3,7 @@ import json
 from typing import Any
 from os import PathLike
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 StrOrBytesPath = str | bytes | PathLike[str] | PathLike[bytes]
 
